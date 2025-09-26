@@ -22,7 +22,7 @@ router.post('/login', (req, res) => {
   const { username, password } = req.body
   if (!username || !password) return res.status(400).json({ error: 'missing' })
 
-  const row = db.prepare('SELECT * FROM users WHERE username = ?').get(username)
+  const row = db.prepare('SELECT * FROM users WHERE username = ?').get(username) as any
   if (!row) return res.status(401).json({ error: 'invalid' })
   const ok = bcrypt.compareSync(password, row.password_hash)
   if (!ok) return res.status(401).json({ error: 'invalid' })
